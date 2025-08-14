@@ -65,61 +65,61 @@ namespace HarborMaster.Services
             string sql = await File.ReadAllTextAsync(_schemaFilePath);
             await ExecuteNonQueryAsync(sql);
         }
-        
         public async Task SeedDatabaseAsync()
-    {
-        // Check if data already exists
-        using var connection = CreateConnection();
-        await connection.OpenAsync();
-
-        // Check if docks table has data
-        using var command = new NpgsqlCommand("SELECT COUNT(*) FROM docks", connection);
-        var count = Convert.ToInt32(await command.ExecuteScalarAsync());
-
-        if (count > 0)
         {
-            // Data already exists, no need to seed
-            return;
+            // Check if data already exists
+            using var connection = CreateConnection();
+            await connection.OpenAsync();
+
+            // Check if docks table has data
+            using var command = new NpgsqlCommand("SELECT COUNT(*) FROM docks", connection);
+            var count = Convert.ToInt32(await command.ExecuteScalarAsync());
+
+            if (count > 0)
+            {
+                // Data already exists, no need to seed
+                return;
+            }
+
+            // Seed docks
+            await ExecuteNonQueryAsync(@"
+        INSERT INTO docks (location, capacity) VALUES
+        ('North Harbor', 5),
+        ('South Harbor', 3),
+        ('East Harbor', 7)
+    ");
+
+            // Seed haulers
+            await ExecuteNonQueryAsync(@"
+        INSERT INTO haulers (name, capacity) VALUES
+        ('Oceanic Haulers', 10),
+        ('Maritime Transport', 15),
+        ('Sea Logistics', 8)
+    ");
+
+            // Seed ships
+            await ExecuteNonQueryAsync(@"
+        INSERT INTO ships (name, type, dock_id) VALUES
+        ('Serenity', 'Firefly-class transport ship', 1),
+        ('Rocinante', 'Corvette-class frigate', 2),
+        ('Millennium Falcon', 'YT-1300 light freighter', 3),
+        ('Black Pearl', 'Pirate galleon', 1),
+        ('Nautilus', 'Submarine vessel', 2),
+        ('Flying Dutchman', 'Ghost ship', 3),
+        ('Enterprise', 'Constitution-class starship', 1),
+        ('Voyager', 'Intrepid-class starship', 2),
+        ('Defiant', 'Escort-class warship', 3),
+        ('Galactica', 'Battlestar', 1),
+        ('Bebop', 'Fishing trawler', 2),
+        ('Normandy', 'Stealth frigate', 3),
+        ('Pillar of Autumn', 'Halcyon-class cruiser', 1),
+        ('Nostromo', 'Commercial towing vessel', 2),
+        ('Sulaco', 'Military transport', 3),
+        ('Highwind', 'Airship', 1),
+        ('Argo', 'Ancient Greek galley', 2),
+        ('Nebuchadnezzar', 'Hovership', 3)
+    ");
         }
 
-        // Seed docks
-        await ExecuteNonQueryAsync(@"
-            INSERT INTO docks (location, capacity) VALUES
-            ('North Harbor', 5),
-            ('South Harbor', 3),
-            ('East Harbor', 7)
-        ");
-
-        // Seed haulers
-        await ExecuteNonQueryAsync(@"
-            INSERT INTO haulers (name, capacity) VALUES
-            ('Oceanic Haulers', 10),
-            ('Maritime Transport', 15),
-            ('Sea Logistics', 8)
-        ");
-
-        // Seed ships
-        await ExecuteNonQueryAsync(@"
-            INSERT INTO ships (name, type, dock_id) VALUES
-            ('Serenity', 'Firefly-class transport ship', 1),
-            ('Rocinante', 'Corvette-class frigate', 2),
-            ('Millennium Falcon', 'YT-1300 light freighter', 3),
-            ('Black Pearl', 'Pirate galleon', 1),
-            ('Nautilus', 'Submarine vessel', 2),
-            ('Flying Dutchman', 'Ghost ship', 3),
-            ('Enterprise', 'Constitution-class starship', 1),
-            ('Voyager', 'Intrepid-class starship', 2),
-            ('Defiant', 'Escort-class warship', 3),
-            ('Galactica', 'Battlestar', 1),
-            ('Bebop', 'Fishing trawler', 2),
-            ('Normandy', 'Stealth frigate', 3),
-            ('Pillar of Autumn', 'Halcyon-class cruiser', 1),
-            ('Nostromo', 'Commercial towing vessel', 2),
-            ('Sulaco', 'Military transport', 3),
-            ('Highwind', 'Airship', 1),
-            ('Argo', 'Ancient Greek galley', 2),
-            ('Nebuchadnezzar', 'Hovership', 3)
-        ");
-        }
     }
 }

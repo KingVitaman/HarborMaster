@@ -34,3 +34,4 @@ c:\Users\King Vitaman\workspace\HarborMaster\obj\Debug\net8.0\refint\HarborMaste
 c:\Users\King Vitaman\workspace\HarborMaster\obj\Debug\net8.0\HarborMaster.pdb
 c:\Users\King Vitaman\workspace\HarborMaster\obj\Debug\net8.0\HarborMaster.genruntimeconfig.cache
 c:\Users\King Vitaman\workspace\HarborMaster\obj\Debug\net8.0\ref\HarborMaster.dll
+C:\Users\King Vitaman\workspace\HarborMaster\obj\Debug\net8.0\HarborMaster.sourcelink.json
