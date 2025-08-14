@@ -121,5 +121,105 @@ namespace HarborMaster.Services
     ");
         }
 
+        // Get all ships
+        public async Task<List<Ship>> GetAllShipsAsync()
+        {
+            var ships = new List<Ship>();
+
+            using var connection = CreateConnection();
+            await connection.OpenAsync();
+
+            using var command = new NpgsqlCommand("SELECT id, name, type, dock_id FROM ships", connection);
+            using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                ships.Add(new Ship
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Type = reader.GetString(2),
+                    DockId = reader.IsDBNull(3) ? null : reader.GetInt32(3)
+                });
+            }
+
+            return ships;
+        }
+
+        // Get ship by ID
+        public async Task<Ship?> GetShipByIdAsync(int id)
+        {
+            using var connection = CreateConnection();
+            await connection.OpenAsync();
+
+            using var command = new NpgsqlCommand(
+                "SELECT id, name, type, dock_id FROM ships WHERE id = @id",
+                connection);
+            command.Parameters.AddWithValue("@id", id);
+
+            using var reader = await command.ExecuteReaderAsync();
+
+            if (await reader.ReadAsync())
+            {
+                return new Ship
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Type = reader.GetString(2),
+                    DockId = reader.IsDBNull(3) ? null : reader.GetInt32(3)
+                };
+            }
+
+            return null;
+        }
+
+        // Get all docks
+        public async Task<List<Dock?>> GetAllDocksAsync()
+        {
+            var docks = new List<Dock?>();
+
+            using var connection = CreateConnection();
+            await connection.OpenAsync();
+
+            using var command = new NpgsqlCommand("SELECT id, location, capacity FROM docks", connection);
+            using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                docks.Add(new Dock
+                {
+                    Id = reader.GetInt32(0),
+                    Location = reader.GetString(1),
+                    Capacity = reader.GetInt32(2)
+                });
+            }
+
+            return docks;
+        }
+        // Get dock by Id
+        public async Task<Dock?> GetDockByIdAsync(int id)
+        {
+            using var connection = CreateConnection();
+            await connection.OpenAsync();
+
+            using var command = new NpgsqlCommand(
+                "SELECT id, location, capacity FROM docks WHERE id = @id",
+                connection);
+            command.Parameters.AddWithValue("@id", id);
+
+            using var reader = await command.ExecuteReaderAsync();
+
+            if (await reader.ReadAsync())
+            {
+                return new Dock
+                {
+                    Id = reader.GetInt32(0),
+                    Location = reader.GetString(1),
+                    Capacity = reader.GetInt32(2)
+                };
+            }
+
+            return null;
+        }
     }
 }

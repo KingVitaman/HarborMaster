@@ -1,4 +1,5 @@
 using HarborMaster.Services;
+using HarborMaster.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,5 +18,7 @@ using (var scope = app.Services.CreateScope())
 
 // Define API endpoints
 app.MapGet("/", () => "Welcome to Harbor Master API!");
+app.MapShipEndpoints();
+
 
 app.Run();
