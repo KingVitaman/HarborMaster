@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HarborMaster")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+97b4bf9ecb9884defc0701917c83237a4dd22f5f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e6b007140486cc79b463d827b6a7b976ef56014b")]
 [assembly: System.Reflection.AssemblyProductAttribute("HarborMaster")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HarborMaster")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
